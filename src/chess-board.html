@@ -135,9 +135,13 @@
         <label> King
             <input class="input" id="king" type="text" placeholder="Entry b2 or 2b or 22"/></label>
         <br/>
+        <a id="output-coord-king" style="display: none"></a>
+        <br/>
         <label> Queen
             <input id="queen" type="text" placeholder="Entry g3 or 3g or 73"/></label>
-        <br/><br/>
+        <br/>
+        <a id="output-coord-queen" style="display: none"></a>
+        <br/>
         <input class="button" type="submit" value="Move" />
     </form>
     <input class="button"  id="reset" type="submit" value="Reset" />
@@ -159,16 +163,25 @@
 
             setImg('images/king.jpg', 'd3', 'king-img', 'King')
             setImg('images/queen.jpg', 'a1', 'queen-img', 'Queen')
+
+            zeroingValue('king');
+            zeroingValue('queen');
         }
 
 
         form.addEventListener("submit", function(event) {
-            if(king.value){
+            if(king.value)
+            {
                 updateCoordinateKing(king.value);
+            } else {
+                zeroingValue('king')
             }
 
-            if(queen.value){
+            if(queen.value)
+            {
                 updateCoordinateQueen(queen.value);
+            } else {
+                zeroingValue('queen')
             }
 
             event.preventDefault();
@@ -182,14 +195,15 @@
                 data: {
                     king: parseCoordinates(kingValue),
                 },
-                success: function(){
+                success: function(response){
                     var kingImg = document.getElementById('king-img');
                     kingImg.parentNode.removeChild(kingImg);
 
+                    showCoordinates('king', JSON.parse(response)['coordinates']);
                     setImg('images/king.jpg', kingValue, 'king-img', 'King')
                 },
                 error() {
-                    console.error("Can't move King to coordinates " + kingValue + '!');
+                    showError('king', parseCoordinates(kingValue));
                 },
             })
         }
@@ -202,14 +216,15 @@
                 data: {
                     queen: parseCoordinates(queenValue),
                 },
-                success: function(){
+                success: function(response){
                     var queenImg = document.getElementById('queen-img');
                     queenImg.parentNode.removeChild(queenImg);
 
+                    showCoordinates('queen', JSON.parse(response)['coordinates']);
                     setImg('images/queen.jpg', queenValue, 'queen-img', 'Queen')
                 },
                 error() {
-                    console.error("Can't move Queen to coordinates " + queenValue + '!');
+                    showError('queen', parseCoordinates(queenValue));
                 },
             })
         }
@@ -296,6 +311,30 @@
             coordinates = coordinates.reverse('');
             coordinates = coordinates.join('');
             return coordinates;
+        }
+
+        function showCoordinates(figure, coordinates)
+        {
+            var kingCoordView = document.getElementById('output-coord-' + figure);
+            kingCoordView.removeAttribute('style');
+            kingCoordView.textContent = "Actual coordinates " + capitalizeFirstLetter(figure) + " x: " + coordinates['x'] + ' y: ' + coordinates['y'];
+        }
+
+        function showError(figure, coordinates)
+        {
+            var kingCoordView = document.getElementById('output-coord-' + figure);
+            kingCoordView.removeAttribute('style');
+            kingCoordView.textContent = "Can't move " + capitalizeFirstLetter(figure) + " to coordinates " + " x: " + coordinates['x'] + ' y: ' + coordinates['y'];
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string[0].toUpperCase() + string.slice(1);
+        }
+
+        function zeroingValue(figure)
+        {
+            var queenCoordView = document.getElementById('output-coord-' + figure);
+            queenCoordView.setAttribute('style', 'display: none');
         }
     })
 </script>

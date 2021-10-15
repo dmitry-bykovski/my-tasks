@@ -13,7 +13,7 @@ if ($_POST['king'])
     $king = new King($kingCoordinates['x'], $kingCoordinates['y']);
     if ($king->move())
     {
-        echo json_encode(['result' => 'success']);
+        echo json_encode(['coordinates' => $kingCoordinates]);
     }
 }
 
@@ -23,6 +23,6 @@ if ($_POST['queen'])
     $queen = new Queen($queenCoordinates['x'], $queenCoordinates['y']);
     if ($queen->move())
     {
-        echo json_encode(['result' => 'success']);
+        echo json_encode(['coordinates' => $queenCoordinates]);
     }
 }

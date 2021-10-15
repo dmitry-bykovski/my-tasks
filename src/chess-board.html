@@ -95,7 +95,7 @@
                 <td class="black" id="a3"></td>
                 <td class="white" id="b3"></td>
                 <td class="black" id="c3"></td>
-                <td class="white" id="d3"><img class="img" id="king-img" src="king.jpg" alt="king"></td>
+                <td class="white" id="d3"><img class="img" id="king-img" src="images/king.jpg" alt="king"></td>
                 <td class="black" id="e3"></td>
                 <td class="white" id="f3"></td>
                 <td class="black" id="g3"></td>
@@ -114,7 +114,7 @@
             </tr>
             <tr>
                 <th>1</th>
-                <td class="black" id="a1"><img class="img" id="qeen-img" src="qeen.jpg" alt="qeen"></td>
+                <td class="black" id="a1"><img class="img" id="queen-img" src="images/queen.jpg" alt="Queen"></td>
                 <td class="white" id="b1"></td>
                 <td class="black" id="c1"></td>
                 <td class="white" id="d1"></td>
@@ -135,8 +135,8 @@
         <label> King
             <input class="input" id="king" type="text" placeholder="Entry b2 or 2b or 22"/></label>
         <br/>
-        <label> Qeen
-            <input id="qeen" type="text" placeholder="Entry g3 or 3g or 73"/></label>
+        <label> Queen
+            <input id="queen" type="text" placeholder="Entry g3 or 3g or 73"/></label>
         <br/><br/>
         <input class="button" type="submit" value="Move" />
     </form>
@@ -148,17 +148,17 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         const form = document.querySelector("form");
         var king = document.getElementById('king');
-        var qeen = document.getElementById('qeen');
+        var queen = document.getElementById('queen');
 
         document.getElementById('reset').onclick = function() {
             var kingImg = document.getElementById('king-img');
-            var qeenImg = document.getElementById('qeen-img');
+            var queenImg = document.getElementById('queen-img');
 
             kingImg ? kingImg.parentNode.removeChild(kingImg) : null;
-            qeenImg ? qeenImg.parentNode.removeChild(qeenImg) : null;
+            queenImg ? queenImg.parentNode.removeChild(queenImg) : null;
 
-            setImg('king.jpg', 'd3', 'king-img', 'King')
-            setImg('qeen.jpg', 'a1', 'qeen-img', 'Qeen')
+            setImg('images/king.jpg', 'd3', 'king-img', 'King')
+            setImg('images/queen.jpg', 'a1', 'queen-img', 'Queen')
         }
 
 
@@ -167,8 +167,8 @@
                 updateCoordinateKing(king.value);
             }
 
-            if(qeen.value){
-                updateCoordinateQeen(qeen.value);
+            if(queen.value){
+                updateCoordinateQueen(queen.value);
             }
 
             event.preventDefault();
@@ -186,7 +186,7 @@
                     var kingImg = document.getElementById('king-img');
                     kingImg.parentNode.removeChild(kingImg);
 
-                    setImg('king.jpg', kingValue, 'king-img', 'King')
+                    setImg('images/king.jpg', kingValue, 'king-img', 'King')
                 },
                 error() {
                     console.error("Can't move King to coordinates " + kingValue + '!');
@@ -194,22 +194,22 @@
             })
         }
 
-        function updateCoordinateQeen(qeenValue)
+        function updateCoordinateQueen(queenValue)
         {
             $.ajax({
                 url: '/src/index.php',
                 method: 'POST',
                 data: {
-                    qeen: parseCoordinates(qeenValue),
+                    queen: parseCoordinates(queenValue),
                 },
                 success: function(){
-                    var qeenImg = document.getElementById('qeen-img');
-                    qeenImg.parentNode.removeChild(qeenImg);
+                    var queenImg = document.getElementById('queen-img');
+                    queenImg.parentNode.removeChild(queenImg);
 
-                    setImg('qeen.jpg', qeenValue, 'qeen-img', 'Qeen')
+                    setImg('images/queen.jpg', queenValue, 'queen-img', 'Queen')
                 },
                 error() {
-                    console.error("Can't move Qeen to coordinates " + qeenValue + '!');
+                    console.error("Can't move Queen to coordinates " + queenValue + '!');
                 },
             })
         }

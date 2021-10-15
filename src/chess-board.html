@@ -283,7 +283,7 @@
 
             if (!isNaN(parseInt(coordinates[0])) && isNaN(parseInt(coordinates[1])))
             {
-                reverseCoordinates(coordinates)
+                coordinates = reverseCoordinates(coordinates)
             }
 
             var insertTd = document.getElementById(parseCoordinatesForId(coordinates));
@@ -295,6 +295,7 @@
             coordinates = coordinates.split('');
             coordinates = coordinates.reverse('');
             coordinates = coordinates.join('');
+            return coordinates;
         }
     })
 </script>

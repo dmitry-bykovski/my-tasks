@@ -1,0 +1,15 @@
+{
+    "name": "dmitry/my-tasks",
+    "autoload": {
+        "psr-4": {
+            "Dmitry\\MyTasks\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "dmitry-bykovski",
+            "email": "dmitry.bykovski.work@gmail.com"
+        }
+    ],
+    "require": {}
+}

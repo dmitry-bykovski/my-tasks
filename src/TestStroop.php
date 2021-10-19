@@ -33,19 +33,16 @@ class TestStroop
 
             while ($this->wordsColors[$randWord] == $color || in_array($word, array_keys($blockWordsColors)))
             {
-                if ($this->wordsColors[$randWord] == $color)
-                {
+                if ($this->wordsColors[$randWord] == $color){
                     $randWord = array_rand($this->wordsColors);
                 }
 
-                if (in_array($word, array_keys($blockWordsColors)))
-                {
+                if (in_array($word, array_keys($blockWordsColors))){
                     $word = array_rand($this->wordsColors);
                 }
             }
 
-            if (count($blockWordsColors) < 4)
-            {
+            if (count($blockWordsColors) < 4){
                 $blockWordsColors[$word] = $this->wordsColors[$randWord];
             } else {
                 $blockWordsColors[$word] = $this->wordsColors[$randWord];
@@ -62,7 +59,8 @@ class TestStroop
 
         shuffle($keys);
 
-        foreach($keys as $key) {
+        foreach($keys as $key) 
+        {
             $new[$key] = $array[$key];
         }
 

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ATM</title>
+    <style>
+        .main {
+            text-align: center;
+            background-color: #2F4F4F;
+            margin: 20px;
+        }
+        .form {
+            text-align: center;
+            background-color: #c7c9cc;
+            margin: 20px;
+            padding: 20px;
+        }
+        .button {
+            margin: 5px;
+            text-align: right;
+        }
+        .input { margin: 5px; }
+        .title {
+            color: #FFFACD;
+            font-size: 26pt;
+        }
+        table {
+            width: 230px;
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin: auto
+        }
+        th {
+            text-align: center;
+            background: #ccc;
+            padding: 5px;
+            border: 1px solid black;
+        }
+        td {
+            padding: 5px;
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <h1 class="title">Банкомат</h1>
+    <div class="form" id="div">
+        <form>
+            <label>Номинал в наличии
+                <br/>
+                <input class="input" id="in-stock" type="text" placeholder="5, 10, 20, 50, 100"/></label>
+            <br/>
+            <label>Ваша сумма
+                <br/>
+                <input class="input" id="summ" type="text" placeholder="1075"/></label>
+            <br/>
+            <input class="button" type="submit" value="Отправить" />
+        </form>
+        <p>Ответ</p>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const form = document.querySelector("form");
+        let inStock = document.getElementById('in-stock');
+        let input = document.getElementById('summ');
+
+        form.addEventListener("submit", function(event) {
+            if(inStock.value && input.value)
+            {
+                updateData(inStock.value, input.value);
+            } else {
+            }
+
+            event.preventDefault();
+        }, false);
+
+        function updateData(inStockData, inputData)
+        {
+            $.ajax({
+                url: '/src/index.php',
+                method: 'POST',
+                data: {
+                    inStockData : inStockData,
+                    inputData : inputData
+                },
+                success: function(response){
+                    if (typeof JSON.parse(response) == "string")
+                    {
+                        updateMessage(JSON.parse(response));
+                    } else {
+                        updateTable((JSON.parse(response)));
+                    }
+                },
+                error() {
+                    console.error('Error request!');
+                    event.preventDefault();
+                },
+            })
+        }
+
+        function updateTable(data)
+        {
+            let div = document.getElementById('div');
+            let messageTag = document.getElementById('message');
+            let table = document.querySelector("table")
+            let tebleText = "<caption>Таблица номинал/количество</caption>\n" +
+                "            <tr>\n" +
+                "                <th>Номинал</th>\n" +
+                "                <th>Количество</th>\n" +
+                "            </tr>";
+
+            if (table)
+            {
+                table.remove();
+                table = document.createElement('table');
+            } else {
+                table = document.createElement('table');
+            }
+
+            if (messageTag)
+            {
+                messageTag.remove();
+            }
+
+            for (const [key, value] of Object.entries(data)) {
+                tebleText += '<tr><td>' + key + '</td><td>' + value + '</td></tr>';
+            }
+
+            table.innerHTML = tebleText;
+            div.append(table);
+        }
+
+        function updateMessage(message)
+        {
+            let div = document.getElementById('div');
+            let table = document.querySelector("table");
+            let messageTag = document.getElementById('message');
+
+            if (table)
+            {
+                table.remove();
+            }
+            if (messageTag)
+            {
+                messageTag.innerText = message;
+            } else {
+                messageTag = document.createElement('h2');
+                messageTag.setAttribute('id', 'message');
+                messageTag.innerText = message;
+                div.append(messageTag);
+            }
+        }
+    })
+</script>
+</body>
+</html>

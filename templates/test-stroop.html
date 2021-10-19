@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Тест Струпа</title>
+    <style>
+        .main { text-align: center; background-color: #c7c9cc; margin: 20px; font-size: 26pt }
+        /*.spain-style { font-size: 26pt }*/
+    </style>
+</head>
+<body>
+<div class="main">
+    <h1>Тест Струпа</h1>
+    <p class="spain-style">
+        <span style="" id="0"></span>
+        <span id="1"></span>
+        <span id="2"></span>
+    </p>
+    <p class="spain-style">
+        <span id="3"></span>
+        <span id="4"></span>
+        <span id="5"></span>
+    </p>
+    <p class="spain-style">
+        <span id="6"></span>
+        <span id="7"></span>
+        <span id="8"></span>
+    </p>
+    <p class="spain-style">
+        <span id="9"></span>
+    </p>
+    <input style="font-size: 26pt" id="refresh" type="submit" value="Refresh" />
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', (event) => {
+        updateTestData();
+
+        document.getElementById('refresh').onclick = function()
+        {
+            updateTestData();
+        }
+
+        function updateTest(data)
+        {
+            var index = 0;
+            for (const [key, value] of Object.entries(data)) {
+                var span = document.getElementById(String(index));
+                span.setAttribute("style", "color: " + value);
+                span.innerHTML = key;
+                index++;
+            }
+        }
+
+        function updateTestData()
+        {
+            $.ajax({
+                url: '/src/index.php',
+                method: 'POST',
+                success: function(response){
+                    updateTest(JSON.parse(response))
+                },
+                error() {
+                    console.error('Error request!');
+                },
+            })
+        }
+    })
+</script>
+</body>
+</html>

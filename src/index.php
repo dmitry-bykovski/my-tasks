@@ -7,4 +7,4 @@ require __DIR__ . '/../vendor/autoload.php';
 use Dmitry\MyTasks\TestStroop;
 
 $testData = new TestStroop();
-echo json_encode($testData->outputWordsColors());
+echo json_encode($testData->getWordsColors());

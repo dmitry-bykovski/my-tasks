@@ -4,30 +4,46 @@
     <meta charset="UTF-8">
     <title>Тест Струпа</title>
     <style>
-        .main { text-align: center; background-color: #c7c9cc; margin: 20px; font-size: 26pt }
-        /*.spain-style { font-size: 26pt }*/
+        .main { text-align: center; background-color: #2F4F4F; margin: 20px; font-size: 26pt }
     </style>
 </head>
 <body>
 <div class="main">
-    <h1>Тест Струпа</h1>
-    <p class="spain-style">
-        <span style="" id="0"></span>
-        <span id="1"></span>
-        <span id="2"></span>
+    <h1 style="color: #FFFACD">Тест Струпа</h1>
+    <p>
+        <span id="0-0"></span>
+        <span id="0-1"></span>
+        <span id="0-2"></span>
+        <span id="0-3"></span>
+        <span id="0-4"></span>
     </p>
-    <p class="spain-style">
-        <span id="3"></span>
-        <span id="4"></span>
-        <span id="5"></span>
+    <p>
+        <span id="1-0"></span>
+        <span id="1-1"></span>
+        <span id="1-2"></span>
+        <span id="1-3"></span>
+        <span id="1-4"></span>
     </p>
-    <p class="spain-style">
-        <span id="6"></span>
-        <span id="7"></span>
-        <span id="8"></span>
+    <p>
+        <span id="2-0"></span>
+        <span id="2-1"></span>
+        <span id="2-2"></span>
+        <span id="2-3"></span>
+        <span id="2-4"></span>
     </p>
-    <p class="spain-style">
-        <span id="9"></span>
+    <p>
+        <span id="3-0"></span>
+        <span id="3-1"></span>
+        <span id="3-2"></span>
+        <span id="3-3"></span>
+        <span id="3-4"></span>
+    </p>
+    <p>
+        <span id="4-0"></span>
+        <span id="4-1"></span>
+        <span id="4-2"></span>
+        <span id="4-3"></span>
+        <span id="4-4"></span>
     </p>
     <input style="font-size: 26pt" id="refresh" type="submit" value="Refresh" />
 </div>
@@ -43,12 +59,19 @@
 
         function updateTest(data)
         {
-            var index = 0;
+            let index = 0;
+            let spanTag = {};
+
             for (const [key, value] of Object.entries(data)) {
-                var span = document.getElementById(String(index));
-                span.setAttribute("style", "color: " + value);
-                span.innerHTML = key;
-                index++;
+
+                for (const [word, color] of Object.entries(value)) {
+                    spanTag = document.getElementById(String(key) + '-' + String(index));
+                    spanTag.setAttribute("style", "color: " + color);
+                    spanTag.textContent = word;
+
+                    index++;
+                }
+                index = 0;
             }
         }
 

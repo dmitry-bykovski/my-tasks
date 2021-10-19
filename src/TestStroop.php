@@ -20,21 +20,38 @@ class TestStroop
             'tomato' => '#ff6347',
         ];
 
-    public function outputWordsColors()
+    public function getWordsColors()
     {
         $outputWordsColors = [];
+        $blockWordsColors = [];
 
-        foreach ($this->shuffle_assoc($this->wordsColors) as $color)
+        for ($i = 0; $i < 25; $i++)
         {
-            $word = array_search($color, $this->wordsColors);
-            $randColorKey = array_rand($this->wordsColors);
+            $word = array_rand($this->wordsColors);
+            $color = $this->wordsColors[$word];
+            $randWord = array_rand($this->wordsColors);
 
-            while ($this->wordsColors[$randColorKey] == $color || in_array($this->wordsColors[$randColorKey], $outputWordsColors))
+            while ($this->wordsColors[$randWord] == $color || in_array($word, array_keys($blockWordsColors)))
             {
-                $randColorKey = array_rand($this->wordsColors);
+                if ($this->wordsColors[$randWord] == $color)
+                {
+                    $randWord = array_rand($this->wordsColors);
+                }
+
+                if (in_array($word, array_keys($blockWordsColors)))
+                {
+                    $word = array_rand($this->wordsColors);
+                }
             }
 
-            $outputWordsColors[$word] = $this->wordsColors[$randColorKey];
+            if (count($blockWordsColors) < 4)
+            {
+                $blockWordsColors[$word] = $this->wordsColors[$randWord];
+            } else {
+                $blockWordsColors[$word] = $this->wordsColors[$randWord];
+                $outputWordsColors[] = $blockWordsColors;
+                $blockWordsColors = [];
+            }
         }
 
         return $outputWordsColors;
